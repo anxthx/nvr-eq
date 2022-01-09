@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="aaYTT0" name="nvr-eq" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
+              cppLanguageStandard="17">
   <MAINGROUP id="Dy6z3W" name="nvr-eq">
     <GROUP id="{D16A2F94-FCB9-B3D3-07BC-80E16E2864A1}" name="Source">
       <FILE id="AcI1ZQ" name="PluginProcessor.cpp" compile="1" resource="0"

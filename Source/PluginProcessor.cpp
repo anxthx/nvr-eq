@@ -166,7 +166,8 @@ bool NvreqAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* NvreqAudioProcessor::createEditor()
 {
-    return new NvreqAudioProcessorEditor (*this);
+    //return new NvreqAudioProcessorEditor (*this);
+    return new juce::GenericAudioProcessorEditor(*this);
 }
 
 //==============================================================================
@@ -182,7 +183,37 @@ void NvreqAudioProcessor::setStateInformation (const void* data, int sizeInBytes
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
 }
+juce::AudioProcessorValueTreeState::ParameterLayout
+NvreqAudioProcessor::createParameterLayout()
+{
+    juce::AudioProcessorValueTreeState::ParameterLayout layout;
+    //Lowcut
+    layout.add(std::make_unique<juce::AudioParameterFloat>("LowCut Freq",
+        "LowCut Freq", juce::NormalisableRange<float>(20.f, 20000.f, 1.f, 1.f), 20.f));
+    //Highcut
+    layout.add(std::make_unique<juce::AudioParameterFloat>("HighCut Freq",
+        "HighCut Freq", juce::NormalisableRange<float>(20.f, 20000.f, 1.f, 1.f), 20000.f));
+    //Peakcut
+    layout.add(std::make_unique<juce::AudioParameterFloat>("Peak Freq",
+        "Peak Freq", juce::NormalisableRange<float>(20.f, 20000.f, 1.f, 1.f), 750.f));
+    //PeakGain
+    layout.add(std::make_unique<juce::AudioParameterFloat>("Peak Gain",
+        "Peak Gain", juce::NormalisableRange<float>(-24.f, 24.f, 0.5f, 1.f), 0.0f));
+    //Q-factor
+    layout.add(std::make_unique<juce::AudioParameterFloat>("Peak Quality",
+        "Peak Quality", juce::NormalisableRange<float>(0.1f, 10.f, 0.05f, 1.f), 1.f));
 
+    juce::StringArray stringArray;
+    for (int i = 0; i < 4; ++i) {
+        juce::String str;
+        str << (12 + i * 12);
+        str << "dB/Oct";
+        stringArray.add(str);
+    }
+    layout.add(std::make_unique<juce::AudioParameterChoice>("LowCut Slope", "LowCut Slope", stringArray, 0));
+    layout.add(std::make_unique<juce::AudioParameterChoice>("HighCut Slope", "LowCut Slope", stringArray, 0));
+    return layout;
+}
 //==============================================================================
 // This creates new instances of the plugin..
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
